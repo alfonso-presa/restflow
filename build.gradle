@@ -9,7 +9,8 @@ buildscript {
 
 apply plugin: 'java'
 apply plugin: 'eclipse'
-apply plugin: 'idea' 
+apply plugin: 'idea'
+apply plugin: 'maven'
 
 jar {
     baseName = 'restflow'
@@ -22,11 +23,23 @@ repositories {
     mavenCentral()
 }
 
+uploadArchives {
+    repositories {
+        mavenDeployer {
+            repository(url: "https://oss.sonatype.org/content/repositories/snapshots/") {
+                authentication(userName: mavenUser, password: mavenPassword)
+            }
+            pom.version = '0.0.1-SNAPSHOT'
+            pom.artifactId = "restflow"
+            pom.groupId = "com.github.alfonso-presa.restflow"
+        }
+    }
+}
+
 
 dependencies {
 	testCompile 'junit:junit:4.12'
 }
-
 
 eclipse {
     classpath {

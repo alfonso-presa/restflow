@@ -1,4 +1,4 @@
-package com.apresa.restflow;
+package com.apresa.restflow.samples.transfers;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -13,7 +13,7 @@ import com.apresa.restflow.samples.transfers.flow.TransferFlow;
 import com.apresa.restflow.samples.transfers.flow.TransferStatus;
 import com.apresa.restflow.samples.transfers.model.Transfer;
 
-public class RestflowApplicationTests {
+public class TransferFlowTests {
 
 	TransferFlow flow = new TransferFlow();
 
