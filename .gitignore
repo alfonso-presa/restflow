@@ -4,6 +4,11 @@
 *.class
 .gradle
 
+#intelliJ
+.idea
+restflow.iml
+build
+
 # eclipse specific git ignore
 .project
 .metadata
