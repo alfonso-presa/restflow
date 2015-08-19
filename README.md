@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/alfonso-presa/restflow.svg?branch=master)](https://travis-ci.org/alfonso-presa/restflow)
+
 Simple annotation based FSM java library.
 
 ## Purpose
