@@ -14,7 +14,7 @@ This project aim is to provide a lightweight state machine library that allows t
 * Thread safe
 * State is stored inside your own bean and never inside the state machine
     * When ever you trigger an event you provide the bean over which the FSM should operate.
-    
+
 ## Sample
 
 Let's say you have to build a REST end point to handle orders. You will like the orders to go through different states, for example:
@@ -104,3 +104,54 @@ flow.raise(Event.build("SEND").param("trancking", "UPS-ABC"), o);
 Of course you can persist the bean and recover it later on between each step.
 
 Look at src/text/java/com/apresa/restflow/samples for more examples. 
+
+
+## Download
+
+Currently only snapshots are available.
+
+With gradle:
+
+```
+...
+repositories {
+    ...
+    maven {
+        url "https://oss.sonatype.org/content/repositories/snapshots"
+    }
+    ...
+}
+...
+dependencies {
+    ...
+    compile group: 'com.github.alfonso-presa.restflow', name: 'restflow', version: '0.0.1-SNAPSHOT'
+    ...
+}
+...
+```
+
+With maven:
+
+```
+...
+	<dependency>
+		<groupId>com.github.alfonso-presa.restflow</groupId>
+		<artifactId>restflow</artifactId>
+		<version>0.0.1-SNAPSHOT</version>
+	</dependency>
+...
+
+<repositories>
+	...
+    <repository>
+        <id>oss-sonatype</id>
+        <name>oss-sonatype</name>
+        <url>https://oss.sonatype.org/content/repositories/snapshots/</url>
+        <snapshots>
+            <enabled>true</enabled>
+        </snapshots>
+    </repository>
+    ....
+</repositories>
+```
+Download jar diractly from [sonatype repository](https://oss.sonatype.org/content/repositories/snapshots/com/github/alfonso-presa/restflow/restflow/)
