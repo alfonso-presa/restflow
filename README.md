@@ -30,7 +30,7 @@ The order should only be able to pass from one state to the next one and only if
 
 The bean supporting the information of an order could be something like this:
 
-´´´java
+```java
 class Order {
 	@StateReference
 	OrderStatus status = OrderStatus.INITIAL;
@@ -46,11 +46,11 @@ enum OrderStatus{
 	PAYED,
 	SENT
 }
-´´´
+```
 
 This library provides a way of implementing a flow class to handle this flow in the following manner:
 
-´´´
+```java
 @Flow(OrderStatus.class)
 @Transition(event = "PLACE", from="INITIAL", to = "PLACED")
 @Transition(event = "PAY", from="PLACED", to = "PAYED")
@@ -88,18 +88,18 @@ public class OrderFlow extends AbstractBeanFlow<Order> {
 	}
 }
 
-´´´
+```
 
 Then by running the following you should be able to make an order pass through the bean flow:
 
-´´´
+```java
 Order o = new Order();
 OrderFlow flow = new OrderFlow();
 
 flow.raise(Event.build("PLACE").param("products", new Object[]{"pid"}).param("customer", "customer"), o);
 flow.raise(Event.build("PAY").param("payment", "123"), o);
 flow.raise(Event.build("SEND").param("trancking", "UPS-ABC"), o);
-´´´
+```
 
 Of course you can persist the bean and recover it later on between each step.
 
