@@ -105,6 +105,8 @@ flow.raise(Event.build("SEND").param("trancking", "UPS-ABC"), o);
 
 Of course you can persist the bean and recover it later on between each step.
 
+To see this sample inside a persisted web application go to the [restflow-spring-web-sample](https://github.com/alfonso-presa/restflow-spring-web-sample)
+
 Look at src/text/java/com/apresa/restflow/samples for more examples. 
 
 
@@ -156,4 +158,4 @@ With maven:
     ....
 </repositories>
 ```
-Download jar diractly from [sonatype repository](https://oss.sonatype.org/content/repositories/snapshots/com/github/alfonso-presa/restflow/restflow/)
+Download jar directly from [sonatype repository](https://oss.sonatype.org/content/repositories/snapshots/com/github/alfonso-presa/restflow/restflow/)
