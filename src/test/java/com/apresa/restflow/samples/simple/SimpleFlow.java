@@ -1,10 +1,7 @@
 package com.apresa.restflow.samples.simple;
 
 import com.apresa.restflow.AbstractBeanFlow;
-import com.apresa.restflow.annotations.Flow;
-import com.apresa.restflow.annotations.On;
-import com.apresa.restflow.annotations.StateReference;
-import com.apresa.restflow.annotations.Transition;
+import com.apresa.restflow.annotations.*;
 import com.apresa.restflow.fsm.Event;
 import com.apresa.restflow.fsm.StateMachineException;
 
@@ -19,8 +16,10 @@ class Bean {
 }
 
 @Flow(States.class)
-@Transition(event = "GOB", from="A", to = "B")
-@Transition(event = "GOA", from="B", to = "A")
+@Transitions({
+		@Transition(event = "GOB", from="A", to = "B"),
+		@Transition(event = "GOA", from="B", to = "A")
+})
 public class SimpleFlow extends AbstractBeanFlow<Bean> {
 	@On("GOB")
 	private void goingToB(){

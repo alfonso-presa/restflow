@@ -8,7 +8,7 @@ import java.lang.annotation.Target;
 
 
 @Retention(RetentionPolicy.RUNTIME)
-@Repeatable(Ons.class)
+//TODO: Disabled for java 7 compatibility @Repeatable(Ons.class)
 @Target(ElementType.METHOD)
 public @interface On {
 

@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.function.Consumer;
 
 import com.apresa.restflow.AbstractBeanFlow;
 import com.apresa.restflow.annotations.Flow;
@@ -43,13 +44,14 @@ public class StateMachine<T> {
 		if(transitionList != null) {
 			for(Transition t : transitionList) {
 				TransitionRunner tr = new TransitionRunner(flow.value(), t);
+				RunnerConsumer rc = new RunnerConsumer(tr);
 				List<ActionRunner> trActions = actions.get(t.event());
 				if(trActions != null) {
-					trActions.forEach(runner -> tr.add(runner));
+					trActions.forEach(rc);
 				}
 				List<GuardRunner> trGuards = guards.get(t.event());
 				if(trGuards != null) {
-					trGuards.forEach(runner -> tr.add(runner));
+					trGuards.forEach(rc);
 				}
 
 				this.transitions.add(tr);
@@ -125,13 +127,14 @@ public class StateMachine<T> {
 			for(TransitionRunner t : transitions) {
 				if(t.execute(event, bean)) {
 					String state = Tools.getBeanState(bean);
+					ActionConsumer ac = new ActionConsumer(event, bean);
 					List<ActionRunner> actions = this.stateActions.get(state);
 					if(actions != null){
-						actions.forEach(action -> action.execute(event, bean));
+						actions.forEach(ac);
 					}
 					actions = this.stateActions.get("*");
 					if(actions != null){
-						actions.forEach(action -> action.execute(event, bean));
+						actions.forEach(ac);
 					}
 					return true;
 				}
@@ -146,6 +149,43 @@ public class StateMachine<T> {
 			throw new StateMachineException(baseException);
 		}
 		return false;
+	}
+
+	private static class RunnerConsumer implements Consumer<AbstractRunner> {
+
+		private TransitionRunner transitionRunner;
+		
+		public RunnerConsumer(TransitionRunner transitionRunner) {
+			this.transitionRunner = transitionRunner;
+		}		
+		@Override
+		public void accept(AbstractRunner actionRunner) {
+			if(actionRunner instanceof ActionRunner) {
+				transitionRunner.add((ActionRunner) actionRunner);
+			}
+			else if(actionRunner instanceof GuardRunner) {
+				transitionRunner.add((GuardRunner) actionRunner);
+			}
+			else {
+				throw new RuntimeException("Action runner type not supported: " + actionRunner);
+			}
+		}
+	}
+
+	private static class ActionConsumer implements Consumer<ActionRunner> {
+		
+		private Event event;
+		private Object bean;
+
+		public ActionConsumer(Event event, Object bean) {
+			this.event = event;
+			this.bean = bean;
+		}
+
+		@Override
+		public void accept(ActionRunner actionRunner) {
+			actionRunner.execute(event, bean);
+		}
 	}
 
 }

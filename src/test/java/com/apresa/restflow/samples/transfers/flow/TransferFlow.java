@@ -1,20 +1,17 @@
 package com.apresa.restflow.samples.transfers.flow;
 
 import com.apresa.restflow.AbstractBeanFlow;
-import com.apresa.restflow.annotations.EventParam;
-import com.apresa.restflow.annotations.Flow;
-import com.apresa.restflow.annotations.Guard;
-import com.apresa.restflow.annotations.On;
-import com.apresa.restflow.annotations.OnState;
-import com.apresa.restflow.annotations.Transition;
+import com.apresa.restflow.annotations.*;
 import com.apresa.restflow.samples.transfers.model.Transfer;
 import com.apresa.restflow.samples.transfers.support.Utils;
 
 @Flow(TransferStatus.class)
-@Transition(event=TransferEvents.FILL, from=TransferStatusConst.INITIAL, to=TransferStatusConst.INITIAL)
-@Transition(event=TransferEvents.PROCEED, from=TransferStatusConst.INITIAL, to=TransferStatusConst.PENDING_SIGNATURE)
-@Transition(event=TransferEvents.SIGN, from=TransferStatusConst.PENDING_SIGNATURE, to=TransferStatusConst.PENDING_OTP)
-@Transition(event=TransferEvents.EXECUTE, from=TransferStatusConst.PENDING_OTP, to=TransferStatusConst.EXECUTED)
+@Transitions({
+	@Transition(event=TransferEvents.FILL, from=TransferStatusConst.INITIAL, to=TransferStatusConst.INITIAL),
+	@Transition(event=TransferEvents.PROCEED, from=TransferStatusConst.INITIAL, to=TransferStatusConst.PENDING_SIGNATURE),
+	@Transition(event=TransferEvents.SIGN, from=TransferStatusConst.PENDING_SIGNATURE, to=TransferStatusConst.PENDING_OTP),
+	@Transition(event=TransferEvents.EXECUTE, from=TransferStatusConst.PENDING_OTP, to=TransferStatusConst.EXECUTED)
+})
 public class TransferFlow extends AbstractBeanFlow<Transfer>{
 
 	@Guard(TransferEvents.SIGN)
@@ -39,9 +36,12 @@ public class TransferFlow extends AbstractBeanFlow<Transfer>{
 		transfer.target = target != null ? target : transfer.target;
 	}
 
-	@Guard(TransferEvents.PROCEED)
-	@Guard(TransferEvents.SIGN)
-	@Guard(TransferEvents.EXECUTE)
+	@Guards({
+		@Guard(TransferEvents.PROCEED),
+		@Guard(TransferEvents.SIGN),
+		@Guard(TransferEvents.EXECUTE)
+	})
+
 	private boolean validateData(Transfer transfer) {
 		return Utils.checkValidData(transfer);
 	}

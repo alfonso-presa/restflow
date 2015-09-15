@@ -1,13 +1,7 @@
 package com.apresa.restflow.samples.order;
 
 import com.apresa.restflow.AbstractBeanFlow;
-import com.apresa.restflow.annotations.EventParam;
-import com.apresa.restflow.annotations.Flow;
-import com.apresa.restflow.annotations.Guard;
-import com.apresa.restflow.annotations.On;
-import com.apresa.restflow.annotations.OnState;
-import com.apresa.restflow.annotations.StateReference;
-import com.apresa.restflow.annotations.Transition;
+import com.apresa.restflow.annotations.*;
 import com.apresa.restflow.fsm.Event;
 import com.apresa.restflow.fsm.StateMachineException;
 
@@ -28,9 +22,11 @@ enum OrderStatus{
 }
 
 @Flow(OrderStatus.class)
-@Transition(event = "PLACE", from="INITIAL", to = "PLACED")
-@Transition(event = "PAY", from="PLACED", to = "PAYED")
-@Transition(event = "SEND", from="PAYED", to = "SENT")
+@Transitions({
+		@Transition(event = "PLACE", from="INITIAL", to = "PLACED"),
+		@Transition(event = "PAY", from="PLACED", to = "PAYED"),
+		@Transition(event = "SEND", from="PAYED", to = "SENT")
+})
 public class OrderFlow extends AbstractBeanFlow<Order> {
 	@Guard("PLACE")
 	private boolean checkParams(Order order, @EventParam("products") Object[] products, @EventParam("customer") Object customer){

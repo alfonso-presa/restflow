@@ -7,7 +7,7 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 @Retention(RetentionPolicy.RUNTIME)
-@Repeatable(Guards.class)
+//TODO: Disabled for java 7 compatibility @Repeatable(Guards.class)
 @Target(ElementType.METHOD)
 public @interface Guard {
 

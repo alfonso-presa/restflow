@@ -9,7 +9,7 @@ import java.lang.annotation.Target;
 
 
 @Retention(RetentionPolicy.RUNTIME)
-@Repeatable(Transitions.class)
+//TODO: Disabled for java 7 compatibility @Repeatable(Transitions.class)
 @Target(ElementType.TYPE)
 @Inherited
 public  @interface Transition {
