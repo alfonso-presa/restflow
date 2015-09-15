@@ -1,22 +1,13 @@
 package com.apresa.restflow.fsm;
 
+import com.apresa.restflow.AbstractBeanFlow;
+import com.apresa.restflow.annotations.*;
+
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.function.Consumer;
-
-import com.apresa.restflow.AbstractBeanFlow;
-import com.apresa.restflow.annotations.Flow;
-import com.apresa.restflow.annotations.Guard;
-import com.apresa.restflow.annotations.Guards;
-import com.apresa.restflow.annotations.On;
-import com.apresa.restflow.annotations.OnState;
-import com.apresa.restflow.annotations.OnStates;
-import com.apresa.restflow.annotations.Ons;
-import com.apresa.restflow.annotations.Transition;
-import com.apresa.restflow.annotations.Transitions;
 
 public class StateMachine<T> {
 
@@ -47,11 +38,12 @@ public class StateMachine<T> {
 				RunnerConsumer rc = new RunnerConsumer(tr);
 				List<ActionRunner> trActions = actions.get(t.event());
 				if(trActions != null) {
-					trActions.forEach(rc);
+
+					forEach(trActions, rc);
 				}
 				List<GuardRunner> trGuards = guards.get(t.event());
 				if(trGuards != null) {
-					trGuards.forEach(rc);
+					forEach(trGuards, rc);
 				}
 
 				this.transitions.add(tr);
@@ -130,11 +122,11 @@ public class StateMachine<T> {
 					ActionConsumer ac = new ActionConsumer(event, bean);
 					List<ActionRunner> actions = this.stateActions.get(state);
 					if(actions != null){
-						actions.forEach(ac);
+						forEach(actions, ac);
 					}
 					actions = this.stateActions.get("*");
 					if(actions != null){
-						actions.forEach(ac);
+						forEach(actions, ac);
 					}
 					return true;
 				}
@@ -149,6 +141,16 @@ public class StateMachine<T> {
 			throw new StateMachineException(baseException);
 		}
 		return false;
+	}
+
+	private static <T> void forEach(List<? extends T> list, Consumer<T> consumer) {
+		for(T t : list) {
+			consumer.accept(t);
+		}
+	}
+
+	private interface Consumer<T> {
+		void accept(T actionRunner);
 	}
 
 	private static class RunnerConsumer implements Consumer<AbstractRunner> {
