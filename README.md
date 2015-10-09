@@ -109,55 +109,26 @@ Of course you can persist the bean and recover it later on between each step.
 
 To see this sample inside a persisted web application go to the [restflow-spring-web-sample](https://github.com/alfonso-presa/restflow-spring-web-sample)
 
-Look at src/text/java/com/apresa/restflow/samples for more examples. 
+Look at src/text/java/com/apresa/restflow/samples for more examples.
 
 
 ## Download
 
-Currently only snapshots are available.
-
 With gradle:
 
 ```
-...
-repositories {
-    ...
-    maven {
-        url "https://oss.sonatype.org/content/repositories/snapshots"
-    }
-    ...
-}
-...
-dependencies {
-    ...
-    compile group: 'com.github.alfonso-presa.restflow', name: 'restflow', version: '0.0.1-SNAPSHOT'
-    ...
-}
-...
+compile group: 'com.github.alfonso-presa.restflow', name: 'restflow', version: '0.0.1'
 ```
 
 With maven:
 
 ```
-...
-	<dependency>
-		<groupId>com.github.alfonso-presa.restflow</groupId>
-		<artifactId>restflow</artifactId>
-		<version>0.0.1-SNAPSHOT</version>
-	</dependency>
-...
-
-<repositories>
-	...
-    <repository>
-        <id>oss-sonatype</id>
-        <name>oss-sonatype</name>
-        <url>https://oss.sonatype.org/content/repositories/snapshots/</url>
-        <snapshots>
-            <enabled>true</enabled>
-        </snapshots>
-    </repository>
-    ....
-</repositories>
+<dependency>
+	<groupId>com.github.alfonso-presa.restflow</groupId>
+	<artifactId>restflow</artifactId>
+	<version>0.0.1</version>
+</dependency>
 ```
-Download jar directly from [sonatype repository](https://oss.sonatype.org/content/repositories/snapshots/com/github/alfonso-presa/restflow/restflow/)
+
+You can also use snapshot builds by pointing to the
+[sonatype snapshot repository](https://oss.sonatype.org/content/repositories/snapshots)
