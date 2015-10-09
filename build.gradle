@@ -15,7 +15,7 @@ apply plugin: 'signing'
 
 jar {
     baseName = 'restflow'
-    version = '0.0.1-SNAPSHOT'
+    version = '0.0.1'
 }
 sourceCompatibility = 1.7
 targetCompatibility = 1.7
@@ -33,7 +33,7 @@ uploadArchives {
             repository(url: "https://oss.sonatype.org/content/repositories/snapshots/") {
                 authentication(userName: user, password: password)
             }
-            pom.version = '0.0.1-SNAPSHOT'
+            pom.version = '0.0.1'
             pom.artifactId = "restflow"
             pom.groupId = "com.github.alfonso-presa.restflow"
 
