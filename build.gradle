@@ -65,6 +65,7 @@ uploadArchives {
                     }
                 }
             }
+            beforeDeployment { MavenDeployment deployment -> signing.signPom(deployment) }
         }
     }
 }
