@@ -27,6 +27,8 @@ repositories {
 def user = hasProperty('mavenUser') ? mavenUser : System.getenv('mavenUser')
 def password = hasProperty('mavenPassword') ? mavenPassword : System.getenv('mavenPassword')
 
+def isReleaseVersion = !jar.version.endsWith("SNAPSHOT")
+
 uploadArchives {
     repositories {
         mavenDeployer {
@@ -103,5 +105,6 @@ artifacts {
 }
 
 signing {
+    required { isReleaseVersion && gradle.taskGraph.hasTask("uploadArchives") }
     sign configurations.archives
 }
