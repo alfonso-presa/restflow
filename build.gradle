@@ -42,6 +42,14 @@ uploadArchives {
                 packaging 'jar'
                 description 'Lightweight state machine library that allows to easily implement bean flows'
 
+                url 'https://github.com/alfonso-presa/restflow'
+
+                scm {
+                    url 'https://github.com/alfonso-presa/restflow'
+                    connection 'scm:git@github.com:alfonso-presa/restflow.git'
+                    developerConnection 'scm:git@github.com:alfonso-presa/restflow.git'
+                }
+
                 licenses {
                     license {
                         name 'The Apache Software License, Version 2.0'
