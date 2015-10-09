@@ -11,6 +11,7 @@ apply plugin: 'java'
 apply plugin: 'eclipse'
 apply plugin: 'idea'
 apply plugin: 'maven'
+apply plugin: 'signing'
 
 jar {
     baseName = 'restflow'
@@ -35,6 +36,27 @@ uploadArchives {
             pom.version = '0.0.1-SNAPSHOT'
             pom.artifactId = "restflow"
             pom.groupId = "com.github.alfonso-presa.restflow"
+
+            pom.project {
+                name 'restflow'
+                packaging 'jar'
+                description 'Lightweight state machine library that allows to easily implement bean flows'
+
+                licenses {
+                    license {
+                        name 'The Apache Software License, Version 2.0'
+                        url 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+                        distribution 'repo'
+                    }
+                }
+
+                developers {
+                    developer {
+                        id 'alfonso-presa'
+                        name 'alfonso.presa@gmail.com'
+                    }
+                }
+            }
         }
     }
 }
@@ -53,4 +75,24 @@ eclipse {
 
 task wrapper(type: Wrapper) {
     gradleVersion = '2.3'
+}
+
+task javadocJar(type: Jar, dependsOn: javadoc) {
+    classifier = 'javadoc'
+    from 'build/docs/javadoc'
+}
+
+task sourcesJar(type: Jar) {
+    from sourceSets.main.allSource
+    classifier = 'sources'
+}
+
+artifacts {
+    archives jar
+    archives javadocJar
+    archives sourcesJar
+}
+
+signing {
+    sign configurations.archives
 }
