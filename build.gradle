@@ -35,7 +35,7 @@ uploadArchives {
             repository(url: "https://oss.sonatype.org/content/repositories/snapshots/") {
                 authentication(userName: user, password: password)
             }
-            pom.version = '0.0.2-SNAPSHOT'
+            pom.version = '0.1.0'
             pom.artifactId = "restflow"
             pom.groupId = "com.github.alfonso-presa.restflow"
 
