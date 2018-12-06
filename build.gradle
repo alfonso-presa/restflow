@@ -32,9 +32,17 @@ def isReleaseVersion = !jar.version.endsWith("SNAPSHOT")
 uploadArchives {
     repositories {
         mavenDeployer {
-            repository(url: "https://oss.sonatype.org/content/repositories/snapshots/") {
+
+            beforeDeployment { MavenDeployment deployment -> signing.signPom(deployment) }
+
+            repository(url: "https://oss.sonatype.org/service/local/staging/deploy/maven2/") {
                 authentication(userName: user, password: password)
             }
+
+            snapshotRepository(url: "https://oss.sonatype.org/content/repositories/snapshots/") {
+                authentication(userName: user, password: password)
+            }
+
             pom.version = '0.1.0'
             pom.artifactId = "restflow"
             pom.groupId = "com.github.alfonso-presa.restflow"
@@ -67,7 +75,6 @@ uploadArchives {
                     }
                 }
             }
-            beforeDeployment { MavenDeployment deployment -> signing.signPom(deployment) }
         }
     }
 }
