@@ -117,7 +117,7 @@ Look at src/text/java/com/apresa/restflow/samples for more examples.
 With gradle:
 
 ```
-compile group: 'com.github.alfonso-presa.restflow', name: 'restflow', version: '0.0.1'
+compile group: 'com.github.alfonso-presa.restflow', name: 'restflow', version: '0.1.0'
 ```
 
 With maven:
@@ -126,7 +126,7 @@ With maven:
 <dependency>
 	<groupId>com.github.alfonso-presa.restflow</groupId>
 	<artifactId>restflow</artifactId>
-	<version>0.0.1</version>
+	<version>0.1.0</version>
 </dependency>
 ```
 

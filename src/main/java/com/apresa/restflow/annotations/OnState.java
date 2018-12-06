@@ -12,5 +12,6 @@ import java.lang.annotation.Target;
 public @interface OnState {
 
 	String value() default "*";
+	int order() default Integer.MAX_VALUE;
 
 }

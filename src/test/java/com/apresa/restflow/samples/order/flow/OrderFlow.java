@@ -1,25 +1,9 @@
-package com.apresa.restflow.samples.order;
+package com.apresa.restflow.samples.order.flow;
 
 import com.apresa.restflow.AbstractBeanFlow;
 import com.apresa.restflow.annotations.*;
 import com.apresa.restflow.fsm.Event;
 import com.apresa.restflow.fsm.StateMachineException;
-
-class Order {
-	@StateReference
-	OrderStatus status = OrderStatus.INITIAL;
-	Object[] products;
-	Float price;
-	Object customer;
-	Object track;
-}
-
-enum OrderStatus{
-	INITIAL,
-	PLACED,
-	PAYED,
-	SENT
-}
 
 @Flow(OrderStatus.class)
 @Transitions({
@@ -28,20 +12,47 @@ enum OrderStatus{
 		@Transition(event = "SEND", from="PAYED", to = "SENT")
 })
 public class OrderFlow extends AbstractBeanFlow<Order> {
+
+
 	@Guard("PLACE")
-	private boolean checkParams(Order order, @EventParam("products") Object[] products, @EventParam("customer") Object customer){
+	public boolean orderCheck(Order order) {
+		order.check += "3";
+		return true;
+	}
+
+	@Guard(value="PLACE", order=2)
+	public boolean checkParams(Order order, @EventParam("products") Object[] products, @EventParam("customer") Object customer){
+		order.check += "2";
 		return products != null && customer != null;
 	}
 
+	@Guard(value="PLACE", order=1)
+	public boolean firstCheck(Order order) {
+		order.check += "1";
+		return true;
+	}
+
 	@On("PLACE")
+	private void checkPlace(Order order) {
+		order.check += "5";
+	}
+
+	@On(value="PLACE", order=1)
 	private void fillOrderData(Order order, @EventParam("products") Object[] products, @EventParam("customer") Object customer){
+		order.check += "4";
 		order.products = products;
 		order.customer = customer;
 	}
 
 	@OnState("PLACED")
 	private void calculatePrice(Order order){
+		order.check += "7";
 		order.price = 10f; //this should be calculated depending on the products
+	}
+
+	@OnState(value="PLACED", order=1)
+	private void doPlaced(Order order){
+		order.check += "6";
 	}
 
 	@Guard("PAY")

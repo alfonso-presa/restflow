@@ -4,10 +4,7 @@ import com.apresa.restflow.AbstractBeanFlow;
 import com.apresa.restflow.annotations.*;
 
 import java.lang.reflect.Method;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class StateMachine<T> {
 
@@ -15,8 +12,14 @@ public class StateMachine<T> {
 	private final Map<String, List<ActionRunner>> stateActions;
 
 	public StateMachine(AbstractBeanFlow<T> flowHandler) {
+		final AbstractRunner.AbstractRunnerSorter sorter = new AbstractRunner.AbstractRunnerSorter();
 
 		this.stateActions = processStateActionAnnotations(flowHandler);
+
+		for(String key : this.stateActions.keySet()) {
+			Collections.sort(this.stateActions.get(key), sorter);
+		}
+
 		Map<String, List<ActionRunner>> actions = processActionAnnotations(flowHandler);
 		Map<String, List<GuardRunner>> guards = processGuardAnnotations(flowHandler);
 		Flow flow = flowHandler.getClass().getAnnotation(Flow.class);
@@ -38,11 +41,12 @@ public class StateMachine<T> {
 				RunnerConsumer rc = new RunnerConsumer(tr);
 				List<ActionRunner> trActions = actions.get(t.event());
 				if(trActions != null) {
-
+					Collections.sort(trActions, sorter);
 					forEach(trActions, rc);
 				}
 				List<GuardRunner> trGuards = guards.get(t.event());
 				if(trGuards != null) {
+					Collections.sort(trGuards, sorter);
 					forEach(trGuards, rc);
 				}
 
@@ -61,6 +65,7 @@ public class StateMachine<T> {
 
 			for(Guard guard : guards) {
 				GuardRunner gr = new GuardRunner(m, flowHandler);
+				gr.setPriority(guard.order());
 				List<GuardRunner> transitionGrs = grs.get(guard.value());
 				if(transitionGrs == null) {
 					transitionGrs = new ArrayList<>();
@@ -81,6 +86,7 @@ public class StateMachine<T> {
 
 			for(On on : ons) {
 				ActionRunner ar = new ActionRunner(m, flowHandler);
+				ar.setPriority(on.order());
 				List<ActionRunner> transitionArs = ars.get(on.value());
 				if(transitionArs == null) {
 					transitionArs = new ArrayList<>();
@@ -101,6 +107,7 @@ public class StateMachine<T> {
 
 			for(OnState on : ons) {
 				ActionRunner ar = new ActionRunner(m, flowHandler);
+				ar.setPriority(on.order());
 				List<ActionRunner> transitionArs = ars.get(on.value());
 				if(transitionArs == null) {
 					transitionArs = new ArrayList<>();

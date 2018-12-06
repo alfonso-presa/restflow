@@ -12,5 +12,6 @@ import java.lang.annotation.Target;
 public @interface On {
 
 	String value();
+	int order() default Integer.MAX_VALUE;
 
 }

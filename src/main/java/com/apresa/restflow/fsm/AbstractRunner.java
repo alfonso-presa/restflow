@@ -3,19 +3,39 @@ package com.apresa.restflow.fsm;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.util.Comparator;
 
 import com.apresa.restflow.annotations.EventParam;
 
 public abstract class AbstractRunner {
 
+	protected static class AbstractRunnerSorter implements Comparator<AbstractRunner> {
+
+		@Override
+		public int compare(AbstractRunner o1, AbstractRunner o2) {
+			return o1.getPriority() - o2.getPriority();
+		}
+
+	}
+
 	private final Method method;
 	private final Object flowHandler;
+	private int priority = 0;
 
 	public AbstractRunner(Method method, Object flowHandler) {
 		this.method = method;
 		method.setAccessible(true);
 		this.flowHandler = flowHandler;
 	}
+
+	public void setPriority(int priority) {
+		this.priority = priority;
+	}
+
+	public int getPriority() {
+		return priority;
+	}
+
 
 	@SuppressWarnings("unchecked")
 	protected <T> T executeMethod(Event event, Object bean){

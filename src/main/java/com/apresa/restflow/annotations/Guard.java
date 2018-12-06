@@ -11,5 +11,6 @@ import java.lang.annotation.Target;
 public @interface Guard {
 
 	String value();
+	int order() default Integer.MAX_VALUE;
 
 }
