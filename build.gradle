@@ -15,7 +15,7 @@ apply plugin: 'signing'
 
 jar {
     baseName = 'restflow'
-    version = '0.1.0'
+    version = '0.1.1-SNAPSHOT'
 }
 sourceCompatibility = 1.7
 targetCompatibility = 1.7
@@ -43,7 +43,7 @@ uploadArchives {
                 authentication(userName: user, password: password)
             }
 
-            pom.version = '0.1.0'
+            pom.version = '0.1.1-SNAPSHOT'
             pom.artifactId = "restflow"
             pom.groupId = "com.github.alfonso-presa.restflow"
 
